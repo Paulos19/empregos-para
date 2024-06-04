@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FlexboxSpacer } from "../components/FlexboxSpacer";
-import { Marketing } from "./marketing";
+import { Marketing } from "./Marketing";
+
 
 export const Hero = () => {
   return (
@@ -32,7 +33,7 @@ export const Hero = () => {
         <h1 className=" font-semibold text-primary mt-6">Anúncio</h1>
         <Marketing />
       </div>
-    
+      
     </section>
   );
 };
