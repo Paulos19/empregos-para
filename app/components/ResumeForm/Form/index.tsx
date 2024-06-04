@@ -159,7 +159,7 @@ export const FormSection = ({
       )}
       <div className="relative grid grid-cols-6 gap-3">
         {children}
-        <div className={`absolute right-0 top-0 flex gap-0.5`}>
+        <div className={`absolute right-0 top-0 flex gap-6`}>
           <div
             className={`transition-all duration-300 ${
               showMoveUp ? "" : "invisible opacity-0"

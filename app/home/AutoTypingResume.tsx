@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { deepClone } from "../lib/parse-resume-from-pdf/deep-clone";
@@ -69,4 +69,4 @@ export const AutoTypingResume = () => {
       </ResumeIFrameCSR>
     </>
   );
-};
+};*/
