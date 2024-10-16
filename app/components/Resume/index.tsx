@@ -12,7 +12,7 @@ import {
   useRegisterReactPDFHypenationCallback,
 } from "../fonts/hooks";
 import { ResumeControlBarCSR } from "./ResumeControlBar";
-import { prisma } from '../../services/database/index';
+
 
 export const Resume = () => {
   const [scale, setScale] = useState(0.8);
