@@ -82,7 +82,7 @@ const WebSocketComponent: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
+      <div className="bg-white text-primary shadow-lg rounded-lg p-8 max-w-lg w-full">
         <h1 className="text-2xl font-bold mb-4 text-center">Gerar Pagamento PIX</h1>
         
         <button 
@@ -119,37 +119,18 @@ const WebSocketComponent: React.FC = () => {
 
         {/* Exibir o último pagamento recebido */}
         {latestPayment && (
-          <div className="mt-6">
+          <div className="mt-6 text-black">
             <h2 className="text-xl font-bold">Último Pagamento Recebido:</h2>
-            <p><strong>TxID:</strong> {latestPayment.txid}</p>
-            <p><strong>End To End ID:</strong> {latestPayment.endToEndId}</p>
-            <p><strong>Valor:</strong> R$ {latestPayment.valor.toFixed(2)}</p>
-            <p><strong>Horário:</strong> {latestPayment.horario}</p>
-            <p><strong>Data:</strong> {latestPayment.data}</p>
+            <p><strong className='text-primary'>TxID:</strong> {latestPayment.txid}</p>
+            <p><strong className='text-primary'>End To End ID:</strong> {latestPayment.endToEndId}</p>
+            <p><strong className='text-primary'>Valor:</strong> R$ {latestPayment.valor.toFixed(2)}</p>
+            <p><strong className='text-primary'>Horário:</strong> {latestPayment.horario}</p>
             <button 
-              className="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              className="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
               onClick={handleConfirmPayment}
             >
               Confirmar Pagamento
             </button>
-          </div>
-        )}
-
-        {/* Exibir todos os pagamentos recebidos */}
-        {payments.length > 0 && (
-          <div className="mt-6">
-            <h2 className="text-xl font-bold">Todos os Pagamentos Recebidos:</h2>
-            <ul>
-              {payments.map((payment, index) => (
-                <li key={index} className="mb-2">
-                  <p><strong>TxID:</strong> {payment.txid}</p>
-                  <p><strong>End To End ID:</strong> {payment.endToEndId}</p>
-                  <p><strong>Valor:</strong> R$ {payment.valor.toFixed(2)}</p>
-                  <p><strong>Horário:</strong> {payment.horario}</p>
-                  <p><strong>Data:</strong> {payment.data}</p>
-                </li>
-              ))}
-            </ul>
           </div>
         )}
       </div>
