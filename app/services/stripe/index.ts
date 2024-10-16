@@ -1,3 +1,4 @@
+/*
 import { config } from "@/app/config";
 import Stripe from "stripe";
 import { prisma } from '../database/index';
@@ -174,5 +175,7 @@ export const stripe = new Stripe(config.stripe.secretKey || '', {
       name: planKey
     }
   }
+
+  */
 
   
