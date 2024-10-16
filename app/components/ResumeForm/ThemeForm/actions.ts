@@ -18,6 +18,7 @@ export async function createCheckoutSessionAction() {
 
 
     const checkoutSession = await createCheckoutSession(
+        
         session.user.id as string, 
         session.user.email as string,
         session.user.stripeSubscriptionId as string

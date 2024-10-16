@@ -51,7 +51,6 @@ export const stripe = new Stripe(config.stripe.secretKey || '', {
     userId: string, 
     userEmail: string,
     chargeId: string, //
-    sessionId: string,
   ) => {
     try {
       const customer = await createStripeCustomer({
