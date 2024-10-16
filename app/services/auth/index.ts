@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth'
+/*import NextAuth from 'next-auth'
 import EmailProvider from 'next-auth/providers/nodemailer'
 
 import { PrismaAdapter } from '@auth/prisma-adapter'
@@ -35,3 +35,4 @@ export const {
   }
   
 })
+  */

@@ -1,4 +1,4 @@
-'use server'
+/*'use server'
 
 import { auth } from "@/app/services/auth"
 import { createCheckoutSession } from "@/app/services/stripe"
@@ -26,3 +26,4 @@ export async function createCheckoutSessionAction() {
     if(!checkoutSession.url) return
     redirect(checkoutSession.url)
 }
+    */
