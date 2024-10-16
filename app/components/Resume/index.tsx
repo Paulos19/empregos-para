@@ -6,13 +6,13 @@ import { selectSettings } from "@/app/lib/redux/settingsSlice";
 import { useMemo, useState } from "react";
 import { FlexboxSpacer } from "../FlexboxSpacer";
 import { ResumeIFrameCSR } from "./ResumeIFrame";
-import { ResumePDFProfile } from "./ResumePDF/ResumePDFProfile";
 import { ResumePDF } from "./ResumePDF";
 import {
   useRegisterReactPDFFont,
   useRegisterReactPDFHypenationCallback,
 } from "../fonts/hooks";
 import { ResumeControlBarCSR } from "./ResumeControlBar";
+import { prisma } from '../../services/database/index';
 
 export const Resume = () => {
   const [scale, setScale] = useState(0.8);
@@ -45,7 +45,7 @@ export const Resume = () => {
             setScale={setScale}
             documentSize={settings.documentSize}
             document={document}
-            fileName={resume.profile.name + " - Resume"}
+            fileName={resume.profile.name + "."}
           />
         </div>
       </div>

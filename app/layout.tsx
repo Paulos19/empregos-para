@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Inter, Montserrat, Roboto } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { TopNavBar } from "./components/TopNavBar";
+import { Toaster } from '@/components/ui/toaster'
+import { SessionProvider } from "next-auth/react"; // Importar o SessionProvider
 
-const montserrat = Montserrat({ subsets: ["latin"],
+const montserrat = Montserrat({
+  subsets: ["latin"],
   weight: ['400', '700'],
- });
+});
 
 export const metadata: Metadata = {
   title: "Empregos Pará",
@@ -20,8 +23,11 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={montserrat.className}>
-        <TopNavBar />
-        {children}
+        <SessionProvider> {/* Envolver o layout com o SessionProvider */}
+          <TopNavBar />
+          <Toaster />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

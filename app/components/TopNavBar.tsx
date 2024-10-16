@@ -1,11 +1,14 @@
-"use client";
+'use client';
 
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { cx } from "../lib/cx";
 import Link from "next/link";
 import Image from "next/image";
+import { SignOut } from "./SignOut";
 
 export const TopNavBar = () => {
+  const { data: session } = useSession(); // Verifica o estado da sessão
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
@@ -28,16 +31,15 @@ export const TopNavBar = () => {
               className="h-8 w-full"
               priority
             />
-
           </div>
         </Link>
+
         <nav
           aria-label="Site Nav Bar"
           className="flex text-primary items-center gap-2 text-sm font-medium"
         >
           {[
             ["/resume-builder", "Criar"],
-            ["/resume-parser", "Parser"],
           ].map(([href, text]) => (
             <Link
               key={text}

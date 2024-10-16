@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { Hero } from "./home/Hero";
 import { Steps } from "./home/Steps";
-import { TopNavBar } from "./components/TopNavBar";
+import { auth } from "./services/auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth()
   return (
-    <main className="mx-auto max-w-screen-2xl bg-dot px-8 pb-32 text-gray-900 lg:px-12">
+    <main className="mx-auto max-w-screen-2xl bg-dot px-8 text-gray-900 lg:px-12">
       <Hero />
       <Steps />
     </main>

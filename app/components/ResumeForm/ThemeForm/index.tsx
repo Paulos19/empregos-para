@@ -16,19 +16,49 @@ import {
   FontSizeSelections,
 } from "./Selection";
 import { FontFamily } from "../../fonts/constants";
+import { Button, Card } from "@mui/material";
+import { useEffect, useState } from "react";
+import { usePDF } from "@react-pdf/renderer";
+import { ResumeControlBarCSR } from "../../Resume/ResumeControlBar";
+import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import { createCheckoutSessionAction } from "./actions";
+import Image from "next/image";
+import { postCriarPix} from "@/app/api/services-MP";
+import axios from "axios";
+
+
 
 export const ThemeForm = () => {
+  
+  const userId = useAppSelector(state => state.settings);
   const settings = useAppSelector(selectSettings);
   const { fontSize, fontFamily, documentSize } = settings;
   const themeColor = settings.themeColor || DEFAULT_THEME_COLOR;
   const dispatch = useAppDispatch();
+  const [qrcodeUrl, setQrcodeUrl] = useState<string | null>(null);
 
   const handleSettingsChange = (field: GeneralSetting, value: string) => {
     dispatch(changeSettings({ field, value }));
   };
 
+    /*const generateQrCode = async () => {
+        try {
+            const response = await axios.get('https://pix.empregospara.com/pix');
+            setQrcodeUrl(response.data.imageUrl);
+        } catch (error) {
+            console.error('Erro ao gerar QR Code:', error);
+        }
+    };
+    */
+
+    //
+    
+    //
+
   return (
-    <BaseForm>
+    <>
+    <form action={createCheckoutSessionAction}>
       <div className="flex flex-col gap-6">
         <div className="flex items-center gap-2">
           <Cog6ToothIcon className="h-6 w-6 text-gray-600" aria-hidden="true" />
@@ -96,6 +126,14 @@ export const ThemeForm = () => {
           />
         </div>
       </div>
-    </BaseForm>
+      <div className="mt-7">
+        <h3 className="uppercase text-primary font-bold">Confirme os campos antes de Gerar o Currículo:</h3>
+      </div>
+      <div className="flex flex-col items-center gap-7 mt-3 mb-4 rounded-md">
+        <button type="button" className="ml-5 font-bold h-14 items-center w-18 justify-center w-96 cursor-pointer rounded-2xl text-white flex gap-2 border bg-primary px-3 py-0.5 hover:bg-gray-100 lg:ml-8" 
+        ><a href="/resume-websocket">Gerar PIX</a></button>
+      </div>
+    </form>
+    </>
   );
 };
