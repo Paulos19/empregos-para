@@ -57,6 +57,7 @@ const WebSocketComponent: React.FC = () => {
     };
   }, []);
 
+  // Função para gerar o QR Code do Pix
   const generateQrCode = async () => {
     try {
       const response = await axios.get('https://pix.empregospara.com/pix');
@@ -67,6 +68,7 @@ const WebSocketComponent: React.FC = () => {
     }
   };
 
+  // Função para copiar o código Pix
   const handleCopy = () => {
     if (pixCopieECola) {
       navigator.clipboard.writeText(pixCopieECola);
@@ -75,6 +77,7 @@ const WebSocketComponent: React.FC = () => {
     }
   };
 
+  // Função para confirmar o pagamento e redirecionar para a página de download
   const handleConfirmPayment = () => {
     if (latestPayment) {
       const { txid, endToEndId } = latestPayment;
@@ -88,7 +91,7 @@ const WebSocketComponent: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white text-primary shadow-lg rounded-lg p-8 max-w-lg w-full">
         <h1 className="text-2xl font-bold mb-4 text-center">Gerar Pagamento PIX</h1>
-        
+
         {/* Exibir o status da conexão */}
         <div className="text-center mb-4">
           {isConnected ? (
@@ -137,10 +140,10 @@ const WebSocketComponent: React.FC = () => {
         {latestPayment && (
           <div className="mt-6 text-black">
             <h2 className="text-xl font-bold">Último Pagamento Recebido:</h2>
-            <p><strong className='text-primary'>TxID:</strong> {latestPayment.txid}</p>
-            <p><strong className='text-primary'>End To End ID:</strong> {latestPayment.endToEndId}</p>
-            <p><strong className='text-primary'>Valor:</strong> R$ {latestPayment.valor.toFixed(2)}</p>
-            <p><strong className='text-primary'>Horário:</strong> {latestPayment.horario}</p>
+            <p><strong className="text-primary">TxID:</strong> {latestPayment.txid}</p>
+            <p><strong className="text-primary">End To End ID:</strong> {latestPayment.endToEndId}</p>
+            <p><strong className="text-primary">Valor:</strong> R$ {latestPayment.valor.toFixed(2)}</p>
+            <p><strong className="text-primary">Horário:</strong> {latestPayment.horario}</p>
             <button 
               className="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
               onClick={handleConfirmPayment}
