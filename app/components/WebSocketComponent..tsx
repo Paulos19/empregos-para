@@ -7,6 +7,7 @@ interface PaymentData {
   txid: string;
   valor: number;
   horario: string;
+  data: string;
 }
 
 const WebSocketComponent: React.FC = () => {
@@ -14,6 +15,7 @@ const WebSocketComponent: React.FC = () => {
   const [qrcodeUrl, setQrcodeUrl] = useState<string | null>(null);
   const [pixCopieECola, setPixCopieECola] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [latestPayment, setLatestPayment] = useState<PaymentData | null>(null); // Armazena o último pagamento recebido
 
   useEffect(() => {
     const socket = new WebSocket('wss://pix.empregospara.com/ws/'); // Substitua pela sua URL de WebSocket
@@ -27,16 +29,12 @@ const WebSocketComponent: React.FC = () => {
       console.log('Dados recebidos:', receivedData);
 
       if (receivedData.type === 'PAYMENT_RECEIVED' && receivedData.data) {
-        const { txid, endToEndId, valor, horario } = receivedData.data;
-        setPayments((prevPayments) => [...prevPayments, receivedData.data]);
-
-        if (txid && endToEndId) {
-          setTimeout(() => {
-            window.location.href = `/resume-builder?txid=${txid}&endToEndId=${endToEndId}`;
-          }, 100);
-        } else {
-          console.error('txid ou endToEndId ausente nos dados:', receivedData.data);
-        }
+        const { txid, endToEndId, valor, horario, data } = receivedData.data;
+        setPayments((prevPayments) => [
+          ...prevPayments,
+          { txid, endToEndId, valor, horario, data }
+        ]);
+        setLatestPayment({ txid, endToEndId, valor, horario, data }); // Atualiza o último pagamento recebido
       } else {
         console.error('Tipo de mensagem inesperado ou dados ausentes:', receivedData);
       }
@@ -57,12 +55,9 @@ const WebSocketComponent: React.FC = () => {
 
   const generateQrCode = async () => {
     try {
-      // Faz a chamada à API para gerar o QR Code e o código Pix
       const response = await axios.get('https://pix.empregospara.com/pix');
-      
-      // Armazena o QR Code e o código Pix no estado
-      setQrcodeUrl(response.data.imageUrl); 
-      setPixCopieECola(response.data.pixCopieECola); 
+      setQrcodeUrl(response.data.imageUrl);
+      setPixCopieECola(response.data.pixCopieECola);
     } catch (error) {
       console.error('Erro ao gerar QR Code:', error);
     }
@@ -72,9 +67,16 @@ const WebSocketComponent: React.FC = () => {
     if (pixCopieECola) {
       navigator.clipboard.writeText(pixCopieECola);
       setCopied(true);
-
-      // Reverte o estado de "Copiado!" após 2 segundos
       setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handleConfirmPayment = () => {
+    if (latestPayment) {
+      const { txid, endToEndId } = latestPayment;
+      window.location.href = `/resume-builder?txid=${txid}&endToEndId=${endToEndId}`;
+    } else {
+      console.error('Nenhum pagamento recente para confirmar.');
     }
   };
 
@@ -83,7 +85,6 @@ const WebSocketComponent: React.FC = () => {
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
         <h1 className="text-2xl font-bold mb-4 text-center">Gerar Pagamento PIX</h1>
         
-        {/* Botão para gerar QR Code */}
         <button 
           type="button" 
           className="w-full h-12 text-white bg-primary rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors"
@@ -92,7 +93,6 @@ const WebSocketComponent: React.FC = () => {
           Gerar QR Code PIX
         </button>
 
-        {/* Exibir o QR Code se ele estiver disponível */}
         {qrcodeUrl && (
           <div className="mt-6 flex flex-col items-center">
             <Image 
@@ -102,7 +102,6 @@ const WebSocketComponent: React.FC = () => {
               height={200}
             />
             
-            {/* Exibir o código Pix "Copie e Cole" */}
             {pixCopieECola && (
               <div className="mt-4 text-center">
                 <p className="text-gray-700">Código Pix para copiar:</p>
@@ -115,6 +114,42 @@ const WebSocketComponent: React.FC = () => {
                 </button>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Exibir o último pagamento recebido */}
+        {latestPayment && (
+          <div className="mt-6">
+            <h2 className="text-xl font-bold">Último Pagamento Recebido:</h2>
+            <p><strong>TxID:</strong> {latestPayment.txid}</p>
+            <p><strong>End To End ID:</strong> {latestPayment.endToEndId}</p>
+            <p><strong>Valor:</strong> R$ {latestPayment.valor.toFixed(2)}</p>
+            <p><strong>Horário:</strong> {latestPayment.horario}</p>
+            <p><strong>Data:</strong> {latestPayment.data}</p>
+            <button 
+              className="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              onClick={handleConfirmPayment}
+            >
+              Confirmar Pagamento
+            </button>
+          </div>
+        )}
+
+        {/* Exibir todos os pagamentos recebidos */}
+        {payments.length > 0 && (
+          <div className="mt-6">
+            <h2 className="text-xl font-bold">Todos os Pagamentos Recebidos:</h2>
+            <ul>
+              {payments.map((payment, index) => (
+                <li key={index} className="mb-2">
+                  <p><strong>TxID:</strong> {payment.txid}</p>
+                  <p><strong>End To End ID:</strong> {payment.endToEndId}</p>
+                  <p><strong>Valor:</strong> R$ {payment.valor.toFixed(2)}</p>
+                  <p><strong>Horário:</strong> {payment.horario}</p>
+                  <p><strong>Data:</strong> {payment.data}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
