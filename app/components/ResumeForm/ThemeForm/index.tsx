@@ -22,7 +22,6 @@ import { usePDF } from "@react-pdf/renderer";
 import { ResumeControlBarCSR } from "../../Resume/ResumeControlBar";
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
-import { createCheckoutSessionAction } from "./actions";
 import Image from "next/image";
 import { postCriarPix} from "@/app/api/services-MP";
 import axios from "axios";
@@ -58,7 +57,7 @@ export const ThemeForm = () => {
 
   return (
     <>
-    <form action={createCheckoutSessionAction}>
+    <form>
       <div className="flex flex-col gap-6">
         <div className="flex items-center gap-2">
           <Cog6ToothIcon className="h-6 w-6 text-gray-600" aria-hidden="true" />

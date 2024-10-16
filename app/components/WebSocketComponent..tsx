@@ -65,7 +65,7 @@ const WebSocketComponent = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
-        <h1 className="text-2xl font-bold mb-4 text-center">Pagamentos Recebidos</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Pagamento Recebido</h1>
         {payments.length === 0 ? (
           <p className="text-center text-gray-600">Nenhum pagamento recebido ainda.</p>
         ) : (
