@@ -16,12 +16,14 @@ const WebSocketComponent: React.FC = () => {
   const [pixCopieECola, setPixCopieECola] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [latestPayment, setLatestPayment] = useState<PaymentData | null>(null); // Armazena o último pagamento recebido
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     const socket = new WebSocket('wss://pix.empregospara.com/ws/'); // Substitua pela sua URL de WebSocket
 
     socket.onopen = () => {
       console.log('Conexão WebSocket aberta');
+      setIsConnected(true); // Atualiza o estado quando a conexão é aberta
     };
 
     socket.onmessage = (event) => {
@@ -34,7 +36,7 @@ const WebSocketComponent: React.FC = () => {
           ...prevPayments,
           { txid, endToEndId, valor, horario, data }
         ]);
-        setLatestPayment({ txid, endToEndId, valor, horario, data }); // Atualiza o último pagamento recebido
+        setLatestPayment({ txid, endToEndId, valor, horario, data });
       } else {
         console.error('Tipo de mensagem inesperado ou dados ausentes:', receivedData);
       }
@@ -42,10 +44,12 @@ const WebSocketComponent: React.FC = () => {
 
     socket.onclose = () => {
       console.log('Conexão WebSocket fechada');
+      setIsConnected(false); // Atualiza o estado quando a conexão é fechada
     };
 
     socket.onerror = (error) => {
       console.error('Erro no WebSocket:', error);
+      setIsConnected(false); // Atualiza o estado em caso de erro
     };
 
     return () => {
@@ -85,13 +89,25 @@ const WebSocketComponent: React.FC = () => {
       <div className="bg-white text-primary shadow-lg rounded-lg p-8 max-w-lg w-full">
         <h1 className="text-2xl font-bold mb-4 text-center">Gerar Pagamento PIX</h1>
         
-        <button 
-          type="button" 
-          className="w-full h-12 text-white bg-primary rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors"
-          onClick={generateQrCode}
-        >
-          Gerar QR Code PIX
-        </button>
+        {/* Exibir o status da conexão */}
+        <div className="text-center mb-4">
+          {isConnected ? (
+            <span className="text-green-600 font-bold">Conectado</span>
+          ) : (
+            <span className="text-red-600 font-bold">Desconectado</span>
+          )}
+        </div>
+
+        {/* Exibir o botão de gerar QR Code apenas se conectado */}
+        {isConnected && (
+          <button 
+            type="button" 
+            className="w-full h-12 text-white bg-primary rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors"
+            onClick={generateQrCode}
+          >
+            Gerar QR Code PIX
+          </button>
+        )}
 
         {qrcodeUrl && (
           <div className="mt-6 flex flex-col items-center">
