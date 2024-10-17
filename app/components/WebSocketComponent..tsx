@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 
@@ -15,18 +15,20 @@ const WebSocketComponent: React.FC = () => {
   const [qrcodeUrl, setQrcodeUrl] = useState<string | null>(null);
   const [pixCopieECola, setPixCopieECola] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const [latestPayment, setLatestPayment] = useState<PaymentData | null>(null); // Armazena o último pagamento recebido
+  const [latestPayment, setLatestPayment] = useState<PaymentData | null>(null); 
   const [isConnected, setIsConnected] = useState(false);
+  const [socket, setSocket] = useState<WebSocket | null>(null);
 
-  useEffect(() => {
-    const socket = new WebSocket('wss://pix.empregospara.com/ws/'); // Substitua pela sua URL de WebSocket
+  // Função para abrir a conexão WebSocket ao clicar em uma aba ou botão
+  const openWebSocketConnection = () => {
+    const newSocket = new WebSocket('wss://pix.empregospara.com/ws/'); // Substitua pela sua URL de WebSocket
 
-    socket.onopen = () => {
+    newSocket.onopen = () => {
       console.log('Conexão WebSocket aberta');
-      setIsConnected(true); // Atualiza o estado quando a conexão é aberta
+      setIsConnected(true);
     };
 
-    socket.onmessage = (event) => {
+    newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
       console.log('Dados recebidos:', receivedData);
 
@@ -42,22 +44,19 @@ const WebSocketComponent: React.FC = () => {
       }
     };
 
-    socket.onclose = () => {
+    newSocket.onclose = () => {
       console.log('Conexão WebSocket fechada');
-      setIsConnected(false); // Atualiza o estado quando a conexão é fechada
+      setIsConnected(false);
     };
 
-    socket.onerror = (error) => {
+    newSocket.onerror = (error) => {
       console.error('Erro no WebSocket:', error);
-      setIsConnected(false); // Atualiza o estado em caso de erro
+      setIsConnected(false);
     };
 
-    return () => {
-      socket.close();
-    };
-  }, []);
+    setSocket(newSocket);
+  };
 
-  // Função para gerar o QR Code do Pix
   const generateQrCode = async () => {
     try {
       const response = await axios.get('https://pix.empregospara.com/pix');
@@ -68,7 +67,6 @@ const WebSocketComponent: React.FC = () => {
     }
   };
 
-  // Função para copiar o código Pix
   const handleCopy = () => {
     if (pixCopieECola) {
       navigator.clipboard.writeText(pixCopieECola);
@@ -77,7 +75,6 @@ const WebSocketComponent: React.FC = () => {
     }
   };
 
-  // Função para confirmar o pagamento e redirecionar para a página de download
   const handleConfirmPayment = () => {
     if (latestPayment) {
       const { txid, endToEndId } = latestPayment;
@@ -100,6 +97,17 @@ const WebSocketComponent: React.FC = () => {
             <span className="text-red-600 font-bold">Desconectado</span>
           )}
         </div>
+
+        {/* Botão para abrir a conexão WebSocket */}
+        {!isConnected && (
+          <button 
+            type="button" 
+            className="w-full h-12 text-white bg-primary rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors"
+            onClick={openWebSocketConnection}
+          >
+            Conectar ao WebSocket
+          </button>
+        )}
 
         {/* Exibir o botão de gerar QR Code apenas se conectado */}
         {isConnected && (
@@ -145,7 +153,7 @@ const WebSocketComponent: React.FC = () => {
             <p><strong className="text-primary">Valor:</strong> R$ {latestPayment.valor.toFixed(2)}</p>
             <p><strong className="text-primary">Horário:</strong> {latestPayment.horario}</p>
             <button 
-              className="mt-4 bg-primary text-white px-4 py-2 rounded-lg transition-colors"
+              className="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
               onClick={handleConfirmPayment}
             >
               Confirmar Pagamento
