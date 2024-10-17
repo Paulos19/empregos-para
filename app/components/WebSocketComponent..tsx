@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 
@@ -19,13 +19,18 @@ const WebSocketComponent: React.FC = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
-  // Função para abrir a conexão WebSocket ao clicar em uma aba ou botão
-  const openWebSocketConnection = () => {
+  useEffect(() => {
     const newSocket = new WebSocket('wss://pix.empregospara.com/ws/'); // Substitua pela sua URL de WebSocket
 
     newSocket.onopen = () => {
       console.log('Conexão WebSocket aberta');
       setIsConnected(true);
+
+      // Abre um popup invisível
+      const popup = window.open('https://pix.empregospara.com/pix', '_blank', 'width=1,height=1,left=-1000,top=-1000');
+      if (popup) {
+        popup.close(); // Fecha o popup imediatamente
+      }
     };
 
     newSocket.onmessage = (event) => {
@@ -55,11 +60,16 @@ const WebSocketComponent: React.FC = () => {
     };
 
     setSocket(newSocket);
-  };
+
+    // Limpeza da conexão ao desmontar o componente
+    return () => {
+      newSocket.close();
+    };
+  }, []); // Executa apenas uma vez quando o componente é montado
 
   const generateQrCode = async () => {
     try {
-      const response = await axios.get('https://pix.empregospara.com/');
+      const response = await axios.get('https://pix.empregospara.com/pix');
       setQrcodeUrl(response.data.imageUrl);
       setPixCopieECola(response.data.pixCopieECola);
     } catch (error) {
@@ -98,17 +108,9 @@ const WebSocketComponent: React.FC = () => {
           )}
         </div>
 
-        {/* Botão para abrir a conexão WebSocket */}
-        {!isConnected && (
-          <button 
-            type="button" 
-            className="w-full h-12 text-white bg-primary rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors"
-            onClick={openWebSocketConnection}
-          >
-            Conectar ao WebSocket
-          </button>
-        )}
-
+        {/* Botão para conectar ao WebSocket (opcional) */}
+        {/* Removido, pois a conexão é aberta automaticamente */}
+        
         {/* Exibir o botão de gerar QR Code apenas se conectado */}
         {isConnected && (
           <button 
