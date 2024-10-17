@@ -145,7 +145,7 @@ const WebSocketComponent: React.FC = () => {
             <p><strong className="text-primary">Valor:</strong> R$ {latestPayment.valor.toFixed(2)}</p>
             <p><strong className="text-primary">Horário:</strong> {latestPayment.horario}</p>
             <button 
-              className="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              className="mt-4 bg-primary text-white px-4 py-2 rounded-lg transition-colors"
               onClick={handleConfirmPayment}
             >
               Confirmar Pagamento
