@@ -32,6 +32,10 @@ const Home = () => {
              4.{' '}
               <strong className="text-primary">Verificar o recebimento e confirmar</strong>
             </p>
+            <p className="font-semibold text-sm md:text-base">
+             5.{' '}
+              <strong className="text-primary">Após confirmar o pagamento, você será redirecionado à página anterior, com o <button className='ml-1 cursor-none flex items-center gap-1 rounded-lg bg-primary px-3 py-0.5 hover:bg-gray-100 lg:ml-8'>Baixar Currículo</button> ativo, no final</strong>
+            </p>
           </div>
         </section>
 

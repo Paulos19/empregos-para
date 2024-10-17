@@ -19,7 +19,7 @@ export const Hero = () => {
         <Link href="/resume-builder" className="btn-primary mt-4 lg:mt-14">
           Criar Currículo
         </Link>
-        <p className="ml-1 mt-3 text-sm text-gray-500">Não precisa se Cadastrar</p>
+        <p className="ml-1 mt-3 text-sm text-gray-500">De um jeito {' '} <strong className="text-primary">rápido {' '}</strong>e {' '}<strong className="text-primary">fácil</strong> </p>
       </div>
       <FlexboxSpacer maxWidth={100} minWidth={50} className="hidden mb-36 lg:block" />{" "}
       
