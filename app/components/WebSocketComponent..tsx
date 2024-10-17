@@ -81,7 +81,7 @@ const WebSocketComponent: React.FC = () => {
 
   const generateQrCode = async () => {
     try {
-      const response = await axios.get('https://pix.empregospara.com/');
+      const response = await axios.get('https://pix.empregospara.com/pix');
       setQrcodeUrl(response.data.imageUrl);
       setPixCopieECola(response.data.pixCopieECola);
     } catch (error) {

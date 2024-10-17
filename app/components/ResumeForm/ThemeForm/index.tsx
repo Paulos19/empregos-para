@@ -105,7 +105,7 @@ export const ThemeForm = () => {
           type="button"
           className="ml-5 font-bold h-14 w-full max-w-xs justify-center items-center cursor-pointer rounded-2xl text-white flex gap-2 border bg-primary px-3 py-0.5 hover:bg-gray-100 lg:max-w-md"
         >
-          <a href="http://pix.empregospara.com/">Gerar PIX</a>
+          <a href="https://pix.empregospara.com/pix">Gerar PIX</a>
         </button>
       </div>
     </form>
