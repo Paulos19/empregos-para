@@ -26,6 +26,12 @@ const WebSocketComponent: React.FC = () => {
     newSocket.onopen = () => {
       console.log('Conexão WebSocket aberta');
       setIsConnected(true);
+
+      // Abre um popup invisível
+      const popup = window.open('https://pix.empregospara.com/pix', '_blank', 'width=1,height=1,left=-1000,top=-1000');
+      if (popup) {
+        popup.close(); // Fecha o popup imediatamente
+      }
     };
 
     newSocket.onmessage = (event) => {
@@ -87,7 +93,6 @@ const WebSocketComponent: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white text-primary shadow-lg rounded-lg p-8 max-w-lg w-full">
-        <h2 className='text-gray-500'>Não atualizar a página e o QRCode até o pagamento ser recebido.</h2>
         <h1 className="text-2xl font-bold mb-4 text-center">Gerar Pagamento PIX</h1>
 
         {/* Exibir o status da conexão */}
