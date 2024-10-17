@@ -26,12 +26,6 @@ const WebSocketComponent: React.FC = () => {
     newSocket.onopen = () => {
       console.log('Conexão WebSocket aberta');
       setIsConnected(true);
-
-      // Abre um popup invisível
-      const popup = window.open('https://pix.empregospara.com/pix', '_blank', 'width=1,height=1,left=-1000,top=-1000');
-      if (popup) {
-        popup.close(); // Fecha o popup imediatamente
-      }
     };
 
     newSocket.onmessage = (event) => {
