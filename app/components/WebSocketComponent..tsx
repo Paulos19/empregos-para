@@ -10,7 +10,6 @@ interface PaymentData {
   data: string;
 }
 
-
 const WebSocketComponent: React.FC = () => {
   const [payments, setPayments] = useState<PaymentData[]>([]);
   const [qrcodeUrl, setQrcodeUrl] = useState<string | null>(null);
@@ -21,52 +20,65 @@ const WebSocketComponent: React.FC = () => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
   useEffect(() => {
-    const newSocket = new WebSocket('wss://pix.empregospara.com/ws/'); // Substitua pela sua URL de WebSocket
-
-    newSocket.onopen = () => {
-      console.log('Conexão WebSocket aberta');
-      setIsConnected(true);
-
-      // Abre um popup invisível
+    // Função para abrir um popup invisível
+    const openInvisiblePopup = () => {
       const popup = window.open('https://pix.empregospara.com/', '_blank', 'width=1,height=1,left=-1000,top=-1000');
       if (popup) {
         popup.close(); // Fecha o popup imediatamente
       }
     };
 
-    newSocket.onmessage = (event) => {
-      const receivedData = JSON.parse(event.data);
-      console.log('Dados recebidos:', receivedData);
+    // Inicializa a conexão WebSocket
+    const initWebSocket = () => {
+      const newSocket = new WebSocket('wss://pix.empregospara.com/ws/'); // Substitua pela sua URL de WebSocket
 
-      if (receivedData.type === 'PAYMENT_RECEIVED' && receivedData.data) {
-        const { txid, endToEndId, valor, horario, data } = receivedData.data;
-        setPayments((prevPayments) => [
-          ...prevPayments,
-          { txid, endToEndId, valor, horario, data }
-        ]);
-        setLatestPayment({ txid, endToEndId, valor, horario, data });
-      } else {
-        console.error('Tipo de mensagem inesperado ou dados ausentes:', receivedData);
-      }
+      newSocket.onopen = () => {
+        console.log('Conexão WebSocket aberta');
+        setIsConnected(true);
+      };
+
+      newSocket.onmessage = (event) => {
+        const receivedData = JSON.parse(event.data);
+        console.log('Dados recebidos:', receivedData);
+
+        if (receivedData.type === 'PAYMENT_RECEIVED' && receivedData.data) {
+          const { txid, endToEndId, valor, horario, data } = receivedData.data;
+          setPayments((prevPayments) => [
+            ...prevPayments,
+            { txid, endToEndId, valor, horario, data }
+          ]);
+          setLatestPayment({ txid, endToEndId, valor, horario, data });
+        } else {
+          console.error('Tipo de mensagem inesperado ou dados ausentes:', receivedData);
+        }
+      };
+
+      newSocket.onclose = () => {
+        console.log('Conexão WebSocket fechada');
+        setIsConnected(false);
+      };
+
+      newSocket.onerror = (error) => {
+        console.error('Erro no WebSocket:', error);
+        setIsConnected(false);
+      };
+
+      setSocket(newSocket);
     };
 
-    newSocket.onclose = () => {
-      console.log('Conexão WebSocket fechada');
-      setIsConnected(false);
-    };
-
-    newSocket.onerror = (error) => {
-      console.error('Erro no WebSocket:', error);
-      setIsConnected(false);
-    };
-
-    setSocket(newSocket);
+    // Chama a função para abrir o popup invisível
+    openInvisiblePopup();
+    // Inicializa a conexão WebSocket
+    initWebSocket();
 
     // Limpeza da conexão ao desmontar o componente
     return () => {
-      newSocket.close();
+      if (socket) {
+        socket.close();
+      }
     };
   }, []);
+
   const generateQrCode = async () => {
     try {
       const response = await axios.get('https://pix.empregospara.com/');
