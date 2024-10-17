@@ -20,10 +20,6 @@ const Home = () => {
             <div className="flex flex-col space-y-2">
               <p className="font-semibold text-sm md:text-base">
                 1.{' '}
-                <strong className="text-primary">Se Conecte</strong>
-              </p>
-              <p className="font-semibold text-sm md:text-base">
-                2.{' '}
                 <strong className="text-primary">Gerar QR Code PIX</strong>
               </p>
               <p className="font-semibold text-sm md:text-base">
@@ -36,11 +32,11 @@ const Home = () => {
               </p>
               <p className="font-semibold text-sm md:text-base">
                 5.{' '}
-                <strong className="text-primary">Após confirmar o pagamento, você será redirecionado à página anterior, com o{' '}
+                <strong className="text-primary">Ao confirmar o pagamento, você será redirecionado à página anterior, com o{' '}
                   <button className="ml-1 cursor-default flex items-center gap-1 rounded-lg bg-primary px-3 py-0.5 hover:bg-gray-100 lg:ml-8">
                     Baixar Currículo
                   </button>{' '}
-                  ativo, no final</strong>
+                  ativo</strong>
               </p>
             </div>
           </div>
