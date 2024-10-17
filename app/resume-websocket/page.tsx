@@ -17,23 +17,20 @@ const Home = () => {
               Atenção:
             </h2>
             <p className="font-semibold text-sm md:text-base">
-              Ao efetuar o pagamento, verifique se o botão{' '}
-              <strong className="text-primary">Confirmar Pagamento</strong> se
-              encontra.
+             1.{' '}
+              <strong className="text-primary">Se Conecte</strong>
             </p>
             <p className="font-semibold text-sm md:text-base">
-              Caso contrário, entre em contato conosco, com o{' '}
-              <strong className="text-primary">comprovante</strong>, que iremos
-              autorizar o download.
+             2.{' '}
+              <strong className="text-primary">Gerar QR Code PIX</strong>
             </p>
             <p className="font-semibold text-sm md:text-base">
-              Não <strong className="text-primary">atualize</strong> a página
-              até o botão ser gerado.
+             3.{' '}
+              <strong className="text-primary">Efetuar o Pagamento</strong>
             </p>
             <p className="font-semibold text-sm md:text-base">
-              Não <strong className="text-primary">gerar o QRCode</strong> se
-              estiver <strong className="text-red-600">desconectado.</strong>{' '}
-              Sendo assim, atualize a página.
+             4.{' '}
+              <strong className="text-primary">Verificar o recebimento e confirmar</strong>
             </p>
           </div>
         </section>

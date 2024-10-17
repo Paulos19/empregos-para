@@ -87,6 +87,7 @@ const WebSocketComponent: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white text-primary shadow-lg rounded-lg p-8 max-w-lg w-full">
+        <h2 className='text-gray-500'>Não atualizar a página e o QRCode até o pagamento ser recebido.</h2>
         <h1 className="text-2xl font-bold mb-4 text-center">Gerar Pagamento PIX</h1>
 
         {/* Exibir o status da conexão */}
