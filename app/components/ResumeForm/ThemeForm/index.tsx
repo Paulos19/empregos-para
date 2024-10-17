@@ -1,35 +1,14 @@
-import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hooks";
-import {
-  DEFAULT_THEME_COLOR,
-  GeneralSetting,
-  changeSettings,
-  selectSettings,
-} from "@/app/lib/redux/settingsSlice";
-import { BaseForm } from "../Form";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
-import { InlineInput } from "./InlineInput";
-import { THEME_COLORS } from "./constants";
-import { InputGroupWrapper } from "../Form/InputGroup";
-import {
-  DocumentSizeSelections,
-  FontFamilySelectionCSR,
-  FontSizeSelections,
-} from "./Selection";
+import { changeSettings, DEFAULT_THEME_COLOR, GeneralSetting, selectSettings } from "@/app/lib/redux/settingsSlice";
 import { FontFamily } from "../../fonts/constants";
-import { Button, Card } from "@mui/material";
-import { useEffect, useState } from "react";
-import { usePDF } from "@react-pdf/renderer";
-import { ResumeControlBarCSR } from "../../Resume/ResumeControlBar";
-import { useRouter } from 'next/navigation';
-import Link from "next/link";
-import Image from "next/image";
-import { postCriarPix} from "@/app/api/services-MP";
-import axios from "axios";
-
-
+import { InputGroupWrapper } from "../Form/InputGroup";
+import { THEME_COLORS } from "./constants";
+import { InlineInput } from "./InlineInput";
+import { DocumentSizeSelections, FontFamilySelectionCSR, FontSizeSelections } from "./Selection";
+import { Cog6ToothIcon } from "@heroicons/react/24/solid";
+import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hooks";
+import { useState } from "react";
 
 export const ThemeForm = () => {
-  
   const userId = useAppSelector(state => state.settings);
   const settings = useAppSelector(selectSettings);
   const { fontSize, fontFamily, documentSize } = settings;
@@ -41,23 +20,8 @@ export const ThemeForm = () => {
     dispatch(changeSettings({ field, value }));
   };
 
-    /*const generateQrCode = async () => {
-        try {
-            const response = await axios.get('https://pix.empregospara.com/pix');
-            setQrcodeUrl(response.data.imageUrl);
-        } catch (error) {
-            console.error('Erro ao gerar QR Code:', error);
-        }
-    };
-    */
-
-    //
-    
-    //
-
   return (
-    <>
-    <form>
+    <form className="p-4 sm:p-6 md:p-8 lg:p-10">
       <div className="flex flex-col gap-6">
         <div className="flex items-center gap-2">
           <Cog6ToothIcon className="h-6 w-6 text-gray-600" aria-hidden="true" />
@@ -65,6 +29,7 @@ export const ThemeForm = () => {
             Configurações do Currículo
           </h1>
         </div>
+        
         <div>
           <InlineInput
             label="Cor Tema"
@@ -93,6 +58,7 @@ export const ThemeForm = () => {
             ))}
           </div>
         </div>
+        
         <div>
           <InputGroupWrapper label="Fontes" />
           <FontFamilySelectionCSR
@@ -101,6 +67,7 @@ export const ThemeForm = () => {
             handleSettingsChange={handleSettingsChange}
           />
         </div>
+        
         <div>
           <InlineInput
             label="Tamanho da Fonte (pt)"
@@ -116,6 +83,7 @@ export const ThemeForm = () => {
             handleSettingsChange={handleSettingsChange}
           />
         </div>
+        
         <div>
           <InputGroupWrapper label="Tamanho do Documento" />
           <DocumentSizeSelections
@@ -125,14 +93,21 @@ export const ThemeForm = () => {
           />
         </div>
       </div>
+      
       <div className="mt-7">
-        <h3 className="uppercase text-primary font-bold">Confirme os campos antes de Gerar o Currículo:</h3>
+        <h3 className="uppercase text-primary font-bold">
+          Confirme os campos antes de Gerar o Currículo:
+        </h3>
       </div>
+      
       <div className="flex flex-col items-center gap-7 mt-3 mb-4 rounded-md">
-        <button type="button" className="ml-5 font-bold h-14 items-center w-18 justify-center w-96 cursor-pointer rounded-2xl text-white flex gap-2 border bg-primary px-3 py-0.5 hover:bg-gray-100 lg:ml-8" 
-        ><a href="/resume-websocket">Gerar PIX</a></button>
+        <button
+          type="button"
+          className="ml-5 font-bold h-14 w-full max-w-xs justify-center items-center cursor-pointer rounded-2xl text-white flex gap-2 border bg-primary px-3 py-0.5 hover:bg-gray-100 lg:max-w-md"
+        >
+          <a href="/resume-websocket">Gerar PIX</a>
+        </button>
       </div>
     </form>
-    </>
   );
 };
