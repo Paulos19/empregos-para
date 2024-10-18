@@ -106,7 +106,7 @@ model CheckoutSession {
 
 model UserPayment {
   id        String   @id @default(uuid())
-  email     String   @unique
+  email     String 
   fullName  String
   createdAt DateTime @default(now())
 }

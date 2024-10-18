@@ -14,13 +14,12 @@ const WebSocketComponent: React.FC = () => {
   const [payments, setPayments] = useState<PaymentData[]>([]);
   const [qrcodeUrl, setQrcodeUrl] = useState<string | null>(null);
   const [pixCopieECola, setPixCopieECola] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
   const [latestPayment, setLatestPayment] = useState<PaymentData | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [formError, setFormError] = useState('');
 
   useEffect(() => {
     const initWebSocket = () => {
@@ -55,7 +54,7 @@ const WebSocketComponent: React.FC = () => {
       return;
     }
     if (!email.includes('@')) {
-      setFormError('Forneça um email válido ');
+      setFormError('Forneça um email válido');
       return;
     }
     try {
@@ -68,11 +67,25 @@ const WebSocketComponent: React.FC = () => {
     }
   };
 
+  const copyPixCode = () => {
+    if (pixCopieECola) {
+      navigator.clipboard.writeText(pixCopieECola);
+      alert('Código Pix copiado para a área de transferência!');
+    }
+  };
+
+  const handleConfirmPayment = () => {
+    if (latestPayment) {
+      const { txid, endToEndId } = latestPayment;
+      window.location.href = `/resume-builder?txid=${txid}&endToEndId=${endToEndId}`;
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white text-primary shadow-lg rounded-lg p-8 max-w-lg w-full">
         <h1 className="text-2xl font-bold mb-4 text-center">Gerar Pagamento PIX</h1>
-        
+
         <form className="space-y-4 text-primary">
           <div>
             <label className="block text-sm font-medium">Nome Completo</label>
@@ -112,9 +125,31 @@ const WebSocketComponent: React.FC = () => {
             {pixCopieECola && (
               <div className="mt-4 text-center">
                 <p className="text-gray-700">Código Pix para copiar:</p>
-                <p className="bg-gray-100 p-2 rounded-lg text-gray-900 break-all">{pixCopieECola}</p>
+                <p className="bg-gray-100 p-2 rounded-lg text-gray-900 break-all">
+                  {pixCopieECola}
+                </p>
+                <button
+                  onClick={copyPixCode}
+                  className="mt-2 text-white bg-primary rounded-lg px-4 py-2 hover:bg-green-600"
+                >
+                  Copiar Código Pix
+                </button>
               </div>
             )}
+          </div>
+        )}
+
+        {latestPayment && (
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold">Último Pagamento Recebido</h2>
+            <p className='text-black'>TxID: {latestPayment.txid}</p>
+            <p className='text-black'>EndToEndId: {latestPayment.endToEndId}</p>
+            <button
+              className="mt-4 w-full h-12 text-white bg-primary rounded-lg hover:bg-green-700 transition-colors"
+              onClick={handleConfirmPayment}
+            >
+              Confirmar Pagamento
+            </button>
           </div>
         )}
       </div>

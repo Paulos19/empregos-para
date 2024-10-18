@@ -18,6 +18,9 @@ const Home = () => {
       </h2>
       {/* Aplicando a classe justified-list */}
       <div className="flex flex-col space-y-2 justified-list">
+      <p className="font-semibold text-sm md:text-base">
+          <strong className="text-primary">Insira Nome e Email válidos</strong>
+        </p>
         <p className="font-semibold text-sm md:text-base">
           <strong className="text-primary">Gerar QR Code PIX</strong>
         </p>
