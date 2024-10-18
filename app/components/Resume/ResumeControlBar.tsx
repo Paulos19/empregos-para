@@ -119,16 +119,18 @@ const ResumeControlBar = ({
       />
       <div className="w-10">{`${Math.round(scale * 100)}%`}</div>
   
-      {/* Ajuste para mostrar o autoscale em todas as telas */}
-      <label className="flex items-center gap-1">
-        <input
-          type="checkbox"
-          className="mt-0.5 h-4 w-4"
-          checked={scaleOnResize}
-          onChange={() => setScaleOnResize((prev) => !prev)}
-        />
-        <span className="select-none">Autoscale</span>
-      </label>
+      {/* Condição para exibir o Autoscale somente se o botão de download não estiver visível */}
+      {!buttonVisible && (
+        <label className="flex items-center gap-1">
+          <input
+            type="checkbox"
+            className="mt-0.5 h-4 w-4"
+            checked={scaleOnResize}
+            onChange={() => setScaleOnResize((prev) => !prev)}
+          />
+          <span className="select-none">Autoscale</span>
+        </label>
+      )}
     </div>
   
     {buttonVisible && (
