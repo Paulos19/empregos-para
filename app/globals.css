@@ -22,6 +22,21 @@
   .within-outline-theme-purple {
     @apply focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-[color:var(--theme-purple)] hover:opacity-80 hover:outline-[color:var(--theme-purple)];
   }
+
+  .justified-list p {
+    text-align: justify; /* Deixa o texto justificado */
+  }
+  
+  .justified-list {
+    list-style-type: none;
+    counter-reset: item;
+  }
+  
+  .justified-list p::before {
+    counter-increment: item;
+    content: counter(item) ". "; /* Adiciona a numeração automaticamente */
+    font-weight: bold;
+  }
 }
 
 :root {
