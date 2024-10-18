@@ -104,9 +104,9 @@ model CheckoutSession {
   updatedAt       DateTime @updatedAt
 }
 
-model UserPayment {
-  id        String   @id @default(uuid())
-  email     String 
+model userPayment {
+  id        String   @id @default(cuid())
   fullName  String
+  email     String
   createdAt DateTime @default(now())
 }
