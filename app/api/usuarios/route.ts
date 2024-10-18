@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(user);
   } catch (error) {
-    console.error(error);
+    console.error('Erro ao salvar usuário:', error); // Log do erro
     return NextResponse.json({ error: 'Erro ao salvar usuário' }, { status: 500 });
   }
 }
