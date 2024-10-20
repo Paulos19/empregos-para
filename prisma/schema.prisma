@@ -104,9 +104,16 @@ model CheckoutSession {
   updatedAt       DateTime @updatedAt
 }
 
-model userPayment {
+model Postgres {
   id        String   @id @default(cuid())
   fullName  String
   email     String
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id        String   @id @default(uuid()) // UUID como identificador
+  fullName  String
+  email     String   @unique
   createdAt DateTime @default(now())
 }

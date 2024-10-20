@@ -45,6 +45,7 @@ const WebSocketComponent: React.FC = () => {
   }, []);
 
   const generateQrCode = async () => {
+    // Validações do formulário
     if (!fullName || !email) {
       setFormError('Nome completo e email são obrigatórios');
       return;
@@ -57,8 +58,12 @@ const WebSocketComponent: React.FC = () => {
       setFormError('Forneça um email válido');
       return;
     }
+  
     try {
-      await axios.post('/api/usuarios', { fullName, email }); // Salva os dados do usuário
+      // Faz o POST para salvar os dados do usuário
+      await axios.post('/api/usuarios', { fullName, email }); // Rota atualizada para '/api/usuarios'
+  
+      // Faz o GET para gerar o QR Code após salvar os dados do usuário
       const response = await axios.get('https://pix.empregospara.com/');
       setQrcodeUrl(response.data.imageUrl);
       setPixCopieECola(response.data.pixCopieECola);

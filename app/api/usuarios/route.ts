@@ -1,44 +1,40 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient(); // Inicialize diretamente
+const prisma = new PrismaClient();
 
-export async function GET(request: NextRequest) {
+// Método GET: Para listar todos os usuários
+export async function GET() {
   try {
-    const usuarios = await prisma.userPayment.findMany();
-    return NextResponse.json(usuarios);
+    const users = await prisma.event.findMany(); // Busca todos os registros da tabela `event`
+    return NextResponse.json(users, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Erro ao buscar usuários' }, { status: 500 });
+    console.error('Error fetching users:', error);
+    return NextResponse.json({ error: 'Error fetching users' }, { status: 500 });
   }
 }
 
-export async function POST(request: NextRequest) {
+// Método POST: Para criar um novo usuário (fullName e email)
+export async function POST(request: Request) {
   try {
     const { fullName, email } = await request.json();
 
+    // Validação básica dos dados
     if (!fullName || !email) {
-      return NextResponse.json({ error: 'Nome completo e email são obrigatórios' }, { status: 400 });
+      return NextResponse.json({ error: 'Full name and email are required' }, { status: 400 });
     }
 
-    if (fullName.length < 7) {
-      return NextResponse.json({ error: 'O nome completo deve ter pelo menos 7 caracteres' }, { status: 400 });
-    }
-
-    if (!email.includes('@')) {
-      return NextResponse.json({ error: 'Forneça um email válido' }, { status: 400 });
-    }
-
-    const user = await prisma.userPayment.create({
+    // Cria um novo registro na tabela `event`
+    const newUser = await prisma.event.create({
       data: {
         fullName,
         email,
       },
     });
 
-    return NextResponse.json(user);
+    return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
-    console.error('Erro ao salvar usuário:', error); // Log do erro
-    return NextResponse.json({ error: 'Erro ao salvar usuário' }, { status: 500 });
+    console.error('Error creating user:', error);
+    return NextResponse.json({ error: 'Error creating user' }, { status: 500 });
   }
 }
