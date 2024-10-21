@@ -1,8 +1,7 @@
 {
   "/not-found": "app/not-found.js",
   "/page": "app/page.js",
-  "/resume-builder/page": "app/resume-builder/page.js",
   "/resume-websocket/page": "app/resume-websocket/page.js",
-  "/api/usuarios/route": "app/api/usuarios/route.js",
-  "/usuario-empregos-para-pix/page": "app/usuario-empregos-para-pix/page.js"
+  "/resume-builder/page": "app/resume-builder/page.js",
+  "/api/usuarios/route": "app/api/usuarios/route.js"
 }

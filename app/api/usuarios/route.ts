@@ -1,13 +1,22 @@
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import { NextResponse } from "next/server";
+import { Pool } from "pg";
 
-// Método GET: Para listar todos os usuários
+const pool = new Pool({
+  user: 'postgres',
+  host: 'database-1.cbks4c60gizg.us-east-2.rds.amazonaws.com',
+  database: 'event',
+  password: 'password123',
+  port: 5432,
+});
+
 export async function GET() {
   try {
-    const users = await prisma.event.findMany(); // Busca todos os registros da tabela `event`
-    return NextResponse.json(users, { status: 200 });
+    const client = await pool.connect();
+    const res = await client.query('SELECT * FROM userpayment'); // Consulta na tabela userpayment
+    client.release();
+
+    return NextResponse.json(res.rows, { status: 200 });
   } catch (error) {
     console.error('Error fetching users:', error);
     return NextResponse.json({ error: 'Error fetching users' }, { status: 500 });
@@ -24,15 +33,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Full name and email are required' }, { status: 400 });
     }
 
-    // Cria um novo registro na tabela `event`
-    const newUser = await prisma.event.create({
-      data: {
-        fullName,
-        email,
-      },
-    });
+    const client = await pool.connect();
+    const query = 'INSERT INTO userpayment (full_name, email, create_at) VALUES ($1, $2, NOW()) RETURNING *';
+    const values = [fullName, email];
+    const res = await client.query(query, values);
+    client.release();
 
-    return NextResponse.json(newUser, { status: 201 });
+    return NextResponse.json(res.rows[0], { status: 201 });
   } catch (error) {
     console.error('Error creating user:', error);
     return NextResponse.json({ error: 'Error creating user' }, { status: 500 });
