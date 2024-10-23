@@ -1,5 +1,7 @@
 source ~/.nvm/nvm.sh
 source ~/.profile
+timestamp=$(date +"%Y-%m-%d-%H-%M-%S")
+mkdir -p deployments/$timestamp
 cp bundle.zip deployments/$timestamp
 cd deployments/$timestamp
 unzip bundle.zip

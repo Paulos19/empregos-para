@@ -117,3 +117,22 @@ model Event {
   email     String   @unique
   createdAt DateTime @default(now())
 }
+
+model Credentials {
+  id        String   @id @default(uuid())
+  fullName  String
+  email     String
+  createdAt DateTime @default(now())
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  filename  String
+  url       String
+  fileType  String
+  filepath  String   // Verifique se esta propriedade existe
+  createdAt DateTime @default(now())
+}
+
+
+
