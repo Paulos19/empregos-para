@@ -1,11 +1,18 @@
 {
   "pages": {
+<<<<<<< HEAD
     "/_not-found": [
       "static/chunks/webpack-a0c0860066854d44.js",
       "static/chunks/fd9d1056-ac2c2568773ffb66.js",
       "static/chunks/938-2943117b812cf416.js",
       "static/chunks/main-app-83de43d8698d5e6c.js",
       "static/chunks/app/_not-found-3e36275fba01325d.js"
+=======
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+>>>>>>> 55cc0da91f8fa4ea7d55cbc382ff8ee19ff41c22
     ],
     "/layout": [
       "static/chunks/webpack-a0c0860066854d44.js",
@@ -29,6 +36,7 @@
       "static/chunks/300-7c6bf1d803b9b835.js",
       "static/chunks/app/auth/page-066151e98a698593.js"
     ],
+<<<<<<< HEAD
     "/page": [
       "static/chunks/webpack-a0c0860066854d44.js",
       "static/chunks/fd9d1056-ac2c2568773ffb66.js",
@@ -95,6 +103,12 @@
       "static/chunks/815-bc3922ed05d41dd0.js",
       "static/chunks/829-d66877a6dddde33b.js",
       "static/chunks/app/usuario-empregos-para-pix/page-3fb0037a2603a145.js"
+=======
+    "/not-found": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/not-found.js"
+>>>>>>> 55cc0da91f8fa4ea7d55cbc382ff8ee19ff41c22
     ]
   }
 }
