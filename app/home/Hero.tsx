@@ -11,7 +11,7 @@ export const Hero = () => {
         <h1 className="text-primary pb-1 text-4xl font-bold lg:text-5xl">
           CRIE SEUS CURRÍCULOS
           <br />
-          PROFISSIONAL
+          PROFISSIONAIS
         </h1>
         <p className="mt-3 text-primary font-medium text-lg lg:mt-5 lg:text-xl">
           No conforto da sua casa
