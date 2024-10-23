@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"/_app":"pages/_app.js","/api/create-payment":"pages/api/create-payment.js","/_error":"pages/_error.js","/_document":"pages/_document.js","/404":"pages/404.html"}
+=======
+{"/_error":"pages/_error.js","/api/create-payment":"pages/api/create-payment.js","/_app":"pages/_app.js","/_document":"pages/_document.js","/404":"pages/404.html"}
+>>>>>>> e7c72d5337ca5fd25eeabfc13b4aa8c150339579

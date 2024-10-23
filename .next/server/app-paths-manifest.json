@@ -2,6 +2,7 @@
   "/_not-found": "app/_not-found.js",
   "/api/exit-preview/route": "app/api/exit-preview/route.js",
   "/api/revalidate/route": "app/api/revalidate/route.js",
+<<<<<<< HEAD
   "/auth/page": "app/auth/page.js",
   "/resume-builder/page": "app/resume-builder/page.js",
   "/page": "app/page.js",
@@ -10,4 +11,15 @@
   "/resume-websocket/page": "app/resume-websocket/page.js",
   "/usuario-empregos-para-pix/page": "app/usuario-empregos-para-pix/page.js",
   "/api/usuarios/route": "app/api/usuarios/route.js"
+=======
+  "/api/exit-preview/route": "app/api/exit-preview/route.js",
+  "/api/usuarios/route": "app/api/usuarios/route.js",
+  "/auth/page": "app/auth/page.js",
+  "/resume-builder/page": "app/resume-builder/page.js",
+  "/page": "app/page.js",
+  "/resume-websocket/page": "app/resume-websocket/page.js",
+  "/resume-parser/page": "app/resume-parser/page.js",
+  "/resume-import/page": "app/resume-import/page.js",
+  "/usuario-empregos-para-pix/page": "app/usuario-empregos-para-pix/page.js"
+>>>>>>> e7c72d5337ca5fd25eeabfc13b4aa8c150339579
 }
